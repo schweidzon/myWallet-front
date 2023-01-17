@@ -9,7 +9,7 @@ import myWalletImage from '../assets/images/MyWallet.png'
 
 
 
-export default function RegistarPage() {
+export default function RegisterPage() {
     const navigate = useNavigate()
 
     const [name, setName] = useState("")
