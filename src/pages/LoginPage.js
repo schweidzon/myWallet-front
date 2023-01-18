@@ -1,15 +1,39 @@
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import myWalletImage from '../assets/images/MyWallet.png'
+import AppContext from '../context/AppContext'
 
 
 export default function RegistarPage() {
+
+    const navigate = useNavigate()
+   
+    const {setUser, setWallet} = useContext(AppContext)
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+
+    function login(e) {
+        e.preventDefault()
+        axios.post(`${process.env.REACT_APP_API_URL}/`, {email, password})
+        .then(res => {
+            setUser(res.data.name)
+            setWallet(res.data.wallet)
+            navigate("/home")
+            console.log(res.data.wallet)
+
+        })
+        .catch(res => alert(res.response.data))
+
+    }
+
     return (
         <>
             <MyWalletContainer src={myWalletImage} />
-            <RegisterForm>
-                <input  type="email" placeholder='E-mail' required/>
-                <input type="password" placeholder='Senha' required/>
+            <RegisterForm onSubmit={login} >
+                <input onChange={(e) => setEmail(e.target.value)}  type="email" placeholder='E-mail' required/>
+                <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Senha' required/>
                 <button>Entrar</button>
                 <p>Primeira vez? <Link to="/cadastro"><span>Cadastre-se!</span></Link> </p>
             </RegisterForm>
@@ -40,6 +64,11 @@ const RegisterForm = styled.form`
             border-radius: 5px;
             border-style: none;
             padding: 10px;
+            font-size: 20px;
+            &::placeholder {
+                font-size: 20px;
+                color: black;
+            }
         }
         button {
             width: 326px;
@@ -51,6 +80,9 @@ const RegisterForm = styled.form`
             align-items: center;
             color: white;
             cursor: pointer;
+            font-size: 20px;
+            font-weight: 700;
+            
 
         }
         p {
@@ -60,6 +92,8 @@ const RegisterForm = styled.form`
                 color: white;
                 text-decoration: underline;
                 cursor: pointer;
+                font-size: 15px;
+                font-weight: 700;
             }
         }
 

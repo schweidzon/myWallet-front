@@ -28,7 +28,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	font-family: 'Lexend Deca';
+	font-family: 'Raleway', sans-serif;
 	background-color: #8C11BE;
 }
 ol, ul {
@@ -52,10 +52,14 @@ table {
 	box-sizing: border-box;
 	text-decoration: none;
 	border-style: none;
+	font-family: 'Raleway', sans-serif;
 }
 #root {
 	position: relative;
 	
+}
+button {
+	cursor: pointer;
 }
 `
 

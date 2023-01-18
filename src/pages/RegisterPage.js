@@ -1,17 +1,18 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import myWalletImage from '../assets/images/MyWallet.png'
+import AppContext from '../context/AppContext'
 
 
 
 
 
 export default function RegisterPage() {
-    const navigate = useNavigate()
-
+    const {setUser} = useContext(AppContext)
+    const navigate = useNavigate()   
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -32,9 +33,10 @@ export default function RegisterPage() {
         setConfirmPassword("")
         
         console.log(user)
-         axios.post("http://localhost:5000/cadastro", user)
+         axios.post(`${process.env.REACT_APP_API_URL}/cadastro`, user)
          .then(res => {
             alert(res.data)
+            setUser(user.name)
             navigate("/")
 
          })
@@ -81,6 +83,11 @@ const RegisterForm = styled.form`
             border-radius: 5px;
             border-style: none;
             padding: 10px;
+            font-size: 20px;
+            &::placeholder {
+                font-size: 20px;
+                color: black;
+            }
         }
         button {
             width: 326px;
@@ -92,6 +99,8 @@ const RegisterForm = styled.form`
             align-items: center;
             color: white;
             cursor: pointer;
+            font-size: 20px;
+            font-weight: 700;
 
         }
         p {
@@ -101,6 +110,8 @@ const RegisterForm = styled.form`
                 color: white;
                 text-decoration: underline;
                 cursor: pointer;
+                font-size: 15px;
+                font-weight: 700;
             }
         }
 
