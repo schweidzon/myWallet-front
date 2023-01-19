@@ -1,12 +1,12 @@
 import styled from "styled-components"
 import { useLocation } from "react-router-dom"
 
-export default function AddNewValue({setValue, setDescription, registerNewEntry}) {
+export default function AddNewValue({setValue, setDescription, registerNewEntry, EditEntry}) {
     const location = useLocation()
     return (
 
-        <NewEntryForm onSubmit={registerNewEntry} >
-            <input onChange={(e) => setValue(e.target.value)} type="text" placeholder="Valor" />
+        <NewEntryForm onSubmit={location.pathname.includes("/editar-saida") ? EditEntry : registerNewEntry} >
+            <input onChange={(e) => setValue((e.target.value).replace(",", "."))} type="text" placeholder="Valor" />
             <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Descrição" />
             <button>Salvar {location.pathname === "/nova-entrada" ? 'entrada' : 'saída'}</button>
         </NewEntryForm>

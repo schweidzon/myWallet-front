@@ -73,7 +73,7 @@ export default function HomePage() {
                     <CashFlowItem  >
                         <div>
                             <span>{item.date}</span>
-                            <Link to={item.type === "entry" ? "/editar-entrada/:id" : "/editar-saida/:id"}>
+                            <Link to={item.type === "entry" ? `/editar-entrada/${item._id}` : `/editar-saida/${item._id}`}>
                                 <h2>{item.description}</h2>
                             </Link>
                         </div>
@@ -83,7 +83,7 @@ export default function HomePage() {
                                 (Number(item.value).toFixed(2)).toString().replace(".", ",")
                                 : item.value.replace(".", ",")
                         }</ItemValue>
-                        <span onClick={() => deleteEntry(item._id)}>x</span>
+                        <p onClick={() => deleteEntry(item._id)}>x</p>
                     </CashFlowItem>
 
 
@@ -146,6 +146,7 @@ const CashFlowItem = styled.div`
     justify-content: space-between;
     margin-right: 10px;
     word-break: break-all;
+    position: relative;
         h2 {
             color: black;
         }
@@ -155,8 +156,10 @@ const CashFlowItem = styled.div`
             margin-left: 10px;
             width: 170px;
         }
-        span {
+        p {
             cursor: pointer;
+            position: absolute;
+            right: -10px;
         }
     
     
@@ -220,12 +223,13 @@ const ButtonsContainer = styled.div`
 
 `
 
-const ItemValue = styled.p`
-           color: ${props => props.type === "entry" ? "#03AC00" : "#C70000"}
+const ItemValue = styled.h3`
+    margin-right: 5px;
+    color: ${props => props.type === "entry" ? "#03AC00" : "#C70000"}
 `
 
 const BalanceValue = styled.p`
-           color: ${props => props.type.includes("-") ? "#C70000" : "#03AC00"}
+     color: ${props => props.type.includes("-") ? "#C70000" : "#03AC00"}
 `
 
 

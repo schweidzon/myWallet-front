@@ -20,8 +20,8 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/nova-entrada?/:id" element={<NewEntryPage />} />
           <Route path="/nova-saida?/:id" element={<NewExitPage />} />
-          <Route path="/editar-entrada/:id" element={<EditEntryPage />} />
-          <Route path="/editar-saida/:id" element={<EditExitPage />} />
+          <Route path="/editar-entrada?/:id" element={<EditEntryPage />} />
+          <Route path="/editar-saida?/:id" element={<EditExitPage />} />
         </Routes>
         </AppProvider >
     </BrowserRouter>
