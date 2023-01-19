@@ -10,7 +10,7 @@ export default function RegistarPage() {
 
     const navigate = useNavigate()
    
-    const {setUser, setWallet} = useContext(AppContext)
+    const {setUser, setToken} = useContext(AppContext)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
@@ -18,13 +18,14 @@ export default function RegistarPage() {
         e.preventDefault()
         axios.post(`${process.env.REACT_APP_API_URL}/`, {email, password})
         .then(res => {
-            setUser(res.data.name)
-            setWallet(res.data.wallet)
+            setUser(res.data.user)         
+            console.log(res)
+            setToken(res.data.token)
             navigate("/home")
-            console.log(res.data.wallet)
+           
 
         })
-        .catch(res => alert(res.response.data))
+        .catch(err => alert(err.response.data))
 
     }
 

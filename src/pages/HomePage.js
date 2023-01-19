@@ -2,38 +2,32 @@ import styled from 'styled-components'
 import logOut from '../assets/images/logOut.png'
 import plusButton from '../assets/images/plusButton.png'
 import minusButton from '../assets/images/minusButton.png'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import AppContext from '../context/AppContext'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 export default function HomePage() {
-    const { user, wallet, reload, setWallet } = useContext(AppContext)
-    console.log(user)
-    console.log(wallet)
+
+    const { user, reload, token } = useContext(AppContext)
+    const [wallet, setWallet] = useState([])
     useEffect(() => {
         const config = {
             headers: {
-                User: user
+                Authorization: `Bearer ${token}`
             }
         }
         axios.get(`${process.env.REACT_APP_API_URL}/values`, config)
             .then(res => {
-                const newWallet = res.data.wallet
+                console.log(res.data)
+                const newWallet = res.data
                 console.log(user)
-
                 setWallet(newWallet)
             })
+            .catch(err => alert(err.response.data))
     }, [reload])
-
-
-
-
-
+    let userName = user.charAt(0).toUpperCase() + user.slice(1)
     let balance
-    console.log(wallet)
-
-
 
     balanceCalculator()
     function balanceCalculator() {
@@ -49,12 +43,12 @@ export default function HomePage() {
         balance = balanceArray.reduce((acc, current) => acc + current, 0)
         return balance
     }
-    
+
 
     return (
         <>
             <TopStyle>
-                <h1>Olá, {user}</h1>
+                <h1>Olá, {userName}</h1>
                 <img src={logOut} alt="outImage" />
             </TopStyle>
             <CashFlowContainer>
@@ -70,14 +64,21 @@ export default function HomePage() {
 
 
                 ))}
-                {balance === 0 ? '' :
+
+
+                {/* {wallet.length === 0 ? '' :
+                
                     <Balance balance={balance.toString()} >
                         <h2>Saldo</h2>
                         <p >R$ {balance},00</p>
                     </Balance>
-                }
+                } */}
 
             </CashFlowContainer>
+            <BalanceItem>
+                <h2>Saldo</h2>
+                <BalanceValue type={balance.toString()} >R$ {balance},00</BalanceValue>
+            </BalanceItem>
             <ButtonsContainer>
                 <Link to={"/nova-entrada"}>
                     <button > <img src={plusButton} /> Nova<br /> entrada</button>
@@ -91,6 +92,8 @@ export default function HomePage() {
 
     )
 }
+
+
 
 const TopStyle = styled.div`
             display: flex;
@@ -106,27 +109,55 @@ const TopStyle = styled.div`
 const CashFlowContainer = styled.div`
             width: 326px;
             min-height: 446px;
+            max-height: 446px;
             display: flex;
             flex-direction: column;
-            //justify-content: center;
-            //align-items: center;
             margin: auto;
             border-radius: 5px;
             font-size: 20px;
             color: #868686;
             text-align: center;
             background-color: white;
-            margin-bottom: 20px;
             padding-top: 10px;
-            gap: 10px;
+            gap: 13px;
             position: relative;
-       
+            overflow-y: scroll;
+           
          
 `
 const CashFlowItem = styled.div`
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    margin-right: 10px;
     word-break: break-all;
+        h2 {
+            color: black;
+        }
+        div {
+            display: flex;
+            gap: 10px;
+            margin-left: 10px;
+            width: 170px;
+        }
+    
+    
+`
+const BalanceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-end;
+    margin: auto;
+    word-break: break-all;
+    width: 326px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: -15px;
+    margin-bottom: 25px;
+    padding-right: 10px;
+    padding-left:10px;
+    padding-bottom: 3px;
+    font-size: 20px;
         h2 {
             color: black;
         }
@@ -136,17 +167,7 @@ const CashFlowItem = styled.div`
             margin-left: 10px;
             width: 180px;
         }
-    
-`
-const Balance = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    gap: 140px;
-    color:${props => props.balance.includes("-") ? "#C70000" : "#03AC00"}
-        
+
 `
 
 const ButtonsContainer = styled.div`
@@ -156,8 +177,6 @@ const ButtonsContainer = styled.div`
     gap: 10px;
     justify-content: center;
     align-items: center;
-  
-    
            button {
             width: 155px;
             height: 114px;
@@ -183,10 +202,12 @@ const ButtonsContainer = styled.div`
 `
 
 const ItemValue = styled.p`
-
            color: ${props => props.type === "entry" ? "#03AC00" : "#C70000"}
-
-
 `
+
+const BalanceValue = styled.p`
+           color: ${props => props.type.includes("-") ? "#C70000" : "#03AC00"}
+`
+
 
 

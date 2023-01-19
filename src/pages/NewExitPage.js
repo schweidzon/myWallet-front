@@ -7,7 +7,7 @@ import AppContext from "../context/AppContext"
 import AddNewValue from "../context/components/AddNewValue"
 
 export default function NewExitPage() {
-    const {user, setReload} = useContext(AppContext)
+    const {setReload, token} = useContext(AppContext)
     const nagivate = useNavigate()
 
 
@@ -15,8 +15,13 @@ export default function NewExitPage() {
     const [value, setValue] = useState("")
     const [description, setDescription] = useState("")
     function registerNewEntry(e) {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet`, {user, value, description, type: "exit"})
+        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet`, {value, description, type: "exit"}, config)
         .then(() => {
             setReload([])
             nagivate("/home")
