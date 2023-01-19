@@ -31,6 +31,7 @@ export default function HomePage() {
                 navigate("/")
 
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
     let userName = user.charAt(0).toUpperCase() + user.slice(1)
     let balance
@@ -68,40 +69,45 @@ export default function HomePage() {
                 </Link>
             </TopStyle>
             <CashFlowContainer>
-                {/* Não há registros de  <br /> entrada ou saída */}
-                {wallet.map((item) => (
-                    <CashFlowItem  >
-                        <div>
-                            <span>{item.date}</span>
-                            <Link to={item.type === "entry" ? `/editar-entrada/${item._id}` : `/editar-saida/${item._id}`}>
-                                <h2>{item.description}</h2>
-                            </Link>
-                        </div>
-                        {console.log(item.type)}
-                        <ItemValue type={item.type} >R$ {
-                            item.value % 1 === 0 ?
-                                (Number(item.value).toFixed(2)).toString().replace(".", ",")
-                                : item.value.replace(".", ",")
-                        }</ItemValue>
-                        <p onClick={() => deleteEntry(item._id)}>x</p>
-                    </CashFlowItem>
+                {wallet.length === 0 ? <h4>Não há registros de  <br /> entrada ou saída</h4> :
+                    wallet.map((item) => (
+                        <CashFlowItem key={item._id} >
+                            <div>
+                                <span>{item.date}</span>
+                                <Link to={item.type === "entry" ? `/editar-entrada/${item._id}` : `/editar-saida/${item._id}`}>
+                                    <h2>{item.description}</h2>
+                                </Link>
+                            </div>
+                            {console.log(item.type)}
+                            <ItemValue type={item.type} >R$ {
+                                item.value % 1 === 0 ?
+                                    (Number(item.value).toFixed(2)).toString().replace(".", ",")
+                                    : item.value.replace(".", ",")
+                            }</ItemValue>
+                            <p onClick={() => deleteEntry(item._id)}>x</p>
+                        </CashFlowItem>
 
 
-                ))}
-
+                    ))
+                }
             </CashFlowContainer>
-            <BalanceItem>
-                <h2>Saldo</h2>
-                {console.log(typeof balance)}
-                <BalanceValue type={balance.toString()} >R$ {(balance.replace(".", ","))}</BalanceValue>
-            </BalanceItem>
+            {wallet.length > 0 ?
+                <BalanceItem>
+                    <h2>Saldo</h2>
+                    {console.log(typeof balance)}
+                    <BalanceValue type={balance.toString()} >R$ {(balance.replace(".", ","))}</BalanceValue>
+                </BalanceItem>
+                :
+                <BalanceItem></BalanceItem>
+            }
+
             <ButtonsContainer>
                 <Link to={"/nova-entrada"}>
-                    <button > <img src={plusButton} /> Nova<br /> entrada</button>
+                    <button > <img src={plusButton} alt="addImage" /> Nova<br /> entrada</button>
                 </Link>
 
                 <Link to={"/nova-saida"}>
-                    <button> <img src={minusButton} />Nova<br /> saída</button>
+                    <button> <img src={minusButton} alt="addImage" />Nova<br /> saída</button>
                 </Link>
             </ButtonsContainer>
         </>
@@ -123,21 +129,24 @@ const TopStyle = styled.div`
 `
 
 const CashFlowContainer = styled.div`
-            width: 326px;
-            min-height: 416px;
-            max-height: 446px;
-            display: flex;
-            flex-direction: column;
-            margin: auto;
-            border-radius: 5px;
-            font-size: 20px;
-            color: #868686;
-            text-align: center;
-            background-color: white;
-            padding-top: 10px;
-            gap: 13px;
-            position: relative;
-            overflow-y: scroll;
+        width: 326px;
+        min-height: 416px;
+        max-height: 446px;
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        border-radius: 5px;
+        font-size: 20px;
+        color: #868686;
+        text-align: center;
+        background-color: white;
+        padding-top: 10px;
+        gap: 13px;
+        position: relative;
+        overflow-y: scroll;
+        h4 {
+         margin: auto;
+        }
            
          
 `
@@ -161,6 +170,7 @@ const CashFlowItem = styled.div`
             position: absolute;
             right: -10px;
         }
+      
     
     
 `

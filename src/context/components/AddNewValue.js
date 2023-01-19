@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useLocation } from "react-router-dom"
 
-export default function AddNewValue({setValue, setDescription, registerNewEntry, EditEntry}) {
+export default function AddNewValue({ setValue, setDescription, registerNewEntry, EditEntry }) {
     const location = useLocation()
     return (
 

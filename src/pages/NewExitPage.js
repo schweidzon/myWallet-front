@@ -7,15 +7,15 @@ import AppContext from "../context/AppContext"
 import AddNewValue from "../context/components/AddNewValue"
 
 export default function NewExitPage() {
-    const {setReload, token} = useContext(AppContext)
-    const location= useLocation()
+    const { setReload, token } = useContext(AppContext)
+    const location = useLocation()
     let type
-    if(location.pathname === "/nova-saida") {
+    if (location.pathname === "/nova-saida") {
         type = "exit"
     } else {
         type = "entry"
     }
-    
+
     const nagivate = useNavigate()
 
 
@@ -29,18 +29,18 @@ export default function NewExitPage() {
             }
         }
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet`, {value, description, type}, config)
-        .then(() => {
-            setReload([])
-            nagivate("/home")
-        })
+        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet`, { value, description, type }, config)
+            .then(() => {
+                setReload([])
+                nagivate("/home")
+            })
 
     }
 
     return (
         <>
             <PageName>Nova saída</PageName>
-            <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription}/>
+            <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
 
         </>
     )
@@ -55,46 +55,3 @@ const PageName = styled.h1`
     font-weight: 700;
 `
 
-const NewExitForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    margin: auto;
-    justify-content: center;
-    align-items: center;
-        input {
-            width: 326px;
-            height: 58px;
-            border-radius: 5px;
-            border-style: none;
-            padding: 10px;
-            &::placeholder {
-                font-size: 20px;
-                color: black;
-            }
-        }
-        button {
-            width: 326px;
-            height: 46px;
-            background-color: #A328D6;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            cursor: pointer;
-            font-size: 20px;
-            font-weight: 700;
-
-        }
-        p {
-            margin-top: 30px;
-            color: white;
-            span {
-                color: white;
-                text-decoration: underline;
-                cursor: pointer;
-            }
-        }
-
-`

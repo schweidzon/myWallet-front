@@ -1,21 +1,20 @@
 import axios from "axios"
-import dayjs from "dayjs"
 import { useContext, useState } from "react"
-import {  useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
 import AddNewValue from "../context/components/AddNewValue"
 
 export default function NewEntryPage() {
-    const {setReload, token} = useContext(AppContext)
+    const { setReload, token } = useContext(AppContext)
     const location = useLocation()
     let type
-    if(location.pathname === "/nova-saida") {
+    if (location.pathname === "/nova-saida") {
         type = "exit"
     } else {
         type = "entry"
     }
-    const nagivate = useNavigate()    
+    const nagivate = useNavigate()
     const [value, setValue] = useState("")
     const [description, setDescription] = useState("")
     function registerNewEntry(e) {
@@ -25,20 +24,19 @@ export default function NewEntryPage() {
             }
         }
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet?`, {value, description, type}, config)
-        .then(() => {
-            setReload([])
-            console.log('test')
-            nagivate("/home")
-        })
-        .catch(err => alert(err.response.data))
-
+        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet?`, { value, description, type }, config)
+            .then(() => {
+                setReload([])
+                console.log('test')
+                nagivate("/home")
+            })
+            .catch(err => alert(err.response.data))
     }
 
     return (
         <>
             <PageName>Nova entrada</PageName>
-           <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription}/>
+            <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
         </>
     )
 

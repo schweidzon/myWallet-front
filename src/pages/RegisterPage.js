@@ -11,8 +11,8 @@ import AppContext from '../context/AppContext'
 
 
 export default function RegisterPage() {
-    const {setUser} = useContext(AppContext)
-    const navigate = useNavigate()   
+    const { setUser } = useContext(AppContext)
+    const navigate = useNavigate()
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -20,7 +20,7 @@ export default function RegisterPage() {
 
     async function register(e) {
         e.preventDefault()
-        
+
         const user = {
             name,
             email,
@@ -31,26 +31,26 @@ export default function RegisterPage() {
         setEmail("")
         setPassword("")
         setConfirmPassword("")
-        
-        console.log(user)
-         axios.post(`${process.env.REACT_APP_API_URL}/cadastro`, user)
-         .then(res => {
-            alert(res.data)
-            setUser(user.name)
-            navigate("/")
 
-         })
-         .catch(err => console.log(err.response.data))
+        console.log(user)
+        axios.post(`${process.env.REACT_APP_API_URL}/cadastro`, user)
+            .then(res => {
+                alert(res.data)
+                setUser(user.name)
+                navigate("/")
+
+            })
+            .catch(err => console.log(err.response.data))
     }
 
     return (
         <>
             <MyWalletContainer src={myWalletImage} />
             <RegisterForm onSubmit={register}>
-                <input required type='text' placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)}/>
-                <input required type='email' placeholder='E-mail' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                <input required type='password' placeholder='Senha'value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <input required type='password' placeholder='Confirma a senha' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                <input required type='text' placeholder='Nome' value={name} onChange={(e) => setName(e.target.value)} />
+                <input required type='email' placeholder='E-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input required type='password' placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input required type='password' placeholder='Confirma a senha' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                 <button>Cadastrar</button>
                 <p>Já tem uma conta? <Link to={"/"}><span>Entre agora!</span></Link></p>
 

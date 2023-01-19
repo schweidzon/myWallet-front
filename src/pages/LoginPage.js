@@ -9,23 +9,23 @@ import AppContext from '../context/AppContext'
 export default function RegistarPage() {
 
     const navigate = useNavigate()
-   
-    const {setUser, setToken} = useContext(AppContext)
+
+    const { setUser, setToken } = useContext(AppContext)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
     function login(e) {
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_API_URL}/`, {email, password})
-        .then(res => {
-            setUser(res.data.user)         
-            console.log(res)
-            setToken(res.data.token)
-            navigate("/home")
-           
+        axios.post(`${process.env.REACT_APP_API_URL}/`, { email, password })
+            .then(res => {
+                setUser(res.data.user)
+                console.log(res)
+                setToken(res.data.token)
+                navigate("/home")
 
-        })
-        .catch(err => alert(err.response.data))
+
+            })
+            .catch(err => alert(err.response.data))
 
     }
 
@@ -33,8 +33,8 @@ export default function RegistarPage() {
         <>
             <MyWalletContainer src={myWalletImage} />
             <RegisterForm onSubmit={login} >
-                <input onChange={(e) => setEmail(e.target.value)}  type="email" placeholder='E-mail' required/>
-                <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Senha' required/>
+                <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder='E-mail' required />
+                <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Senha' required />
                 <button>Entrar</button>
                 <p>Primeira vez? <Link to="/cadastro"><span>Cadastre-se!</span></Link> </p>
             </RegisterForm>
