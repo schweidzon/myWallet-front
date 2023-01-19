@@ -4,19 +4,21 @@ import plusButton from '../assets/images/plusButton.png'
 import minusButton from '../assets/images/minusButton.png'
 import { useContext, useEffect, useState } from 'react'
 import AppContext from '../context/AppContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 export default function HomePage() {
+    const navigate = useNavigate()
 
-    const { user, reload, token } = useContext(AppContext)
+    const { user, reload, token, setReload } = useContext(AppContext)
     const [wallet, setWallet] = useState([])
-    useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
         }
+    }
+    useEffect(() => {
+
         axios.get(`${process.env.REACT_APP_API_URL}/values`, config)
             .then(res => {
                 console.log(res.data)
@@ -24,7 +26,11 @@ export default function HomePage() {
                 console.log(user)
                 setWallet(newWallet)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => {
+                alert(err.response.data)
+                navigate("/")
+
+            })
     }, [reload])
     let userName = user.charAt(0).toUpperCase() + user.slice(1)
     let balance
@@ -33,15 +39,23 @@ export default function HomePage() {
     function balanceCalculator() {
         const balanceArray = wallet.map((item) => {
             if (item.type === "entry") {
-                return Number(item.value)
+                return Number((item.value).replace(",", "."))
             } else {
-                return Number(-item.value)
+                return Number(-item.value.replace(",", "."))
             }
 
         })
 
-        balance = balanceArray.reduce((acc, current) => acc + current, 0)
+        balance = (balanceArray.reduce((acc, current) => acc + current, 0)).toFixed(2).toString()
+        balance.replace(".", ",")
         return balance
+    }
+
+    function deleteEntry(id) {
+        if (window.confirm("Você tem certeza que deseja deletar uma mensagem?")) {
+            axios.delete(`${process.env.REACT_APP_API_URL}/update-wallet/${id}`, config)
+            setReload([])
+        }
     }
 
 
@@ -49,7 +63,9 @@ export default function HomePage() {
         <>
             <TopStyle>
                 <h1>Olá, {userName}</h1>
-                <img src={logOut} alt="outImage" />
+                <Link to="/">
+                    <img src={logOut} alt="outImage" />
+                </Link>
             </TopStyle>
             <CashFlowContainer>
                 {/* Não há registros de  <br /> entrada ou saída */}
@@ -57,27 +73,27 @@ export default function HomePage() {
                     <CashFlowItem  >
                         <div>
                             <span>{item.date}</span>
-                            <h2>{item.description}</h2>
+                            <Link to={item.type === "entry" ? "/editar-entrada/:id" : "/editar-saida/:id"}>
+                                <h2>{item.description}</h2>
+                            </Link>
                         </div>
-                        <ItemValue type={item.type} >R$ {item.value},00</ItemValue>
+                        {console.log(item.type)}
+                        <ItemValue type={item.type} >R$ {
+                            item.value % 1 === 0 ?
+                                (Number(item.value).toFixed(2)).toString().replace(".", ",")
+                                : item.value.replace(".", ",")
+                        }</ItemValue>
+                        <span onClick={() => deleteEntry(item._id)}>x</span>
                     </CashFlowItem>
 
 
                 ))}
 
-
-                {/* {wallet.length === 0 ? '' :
-                
-                    <Balance balance={balance.toString()} >
-                        <h2>Saldo</h2>
-                        <p >R$ {balance},00</p>
-                    </Balance>
-                } */}
-
             </CashFlowContainer>
             <BalanceItem>
                 <h2>Saldo</h2>
-                <BalanceValue type={balance.toString()} >R$ {balance},00</BalanceValue>
+                {console.log(typeof balance)}
+                <BalanceValue type={balance.toString()} >R$ {(balance.replace(".", ","))}</BalanceValue>
             </BalanceItem>
             <ButtonsContainer>
                 <Link to={"/nova-entrada"}>
@@ -108,7 +124,7 @@ const TopStyle = styled.div`
 
 const CashFlowContainer = styled.div`
             width: 326px;
-            min-height: 446px;
+            min-height: 416px;
             max-height: 446px;
             display: flex;
             flex-direction: column;
@@ -139,6 +155,9 @@ const CashFlowItem = styled.div`
             margin-left: 10px;
             width: 170px;
         }
+        span {
+            cursor: pointer;
+        }
     
     
 `
@@ -153,7 +172,7 @@ const BalanceItem = styled.div`
     border-radius: 5px;
     background-color: white;
     margin-top: -15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     padding-right: 10px;
     padding-left:10px;
     padding-bottom: 3px;

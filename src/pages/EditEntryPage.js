@@ -6,7 +6,7 @@ import styled from "styled-components"
 import AppContext from "../context/AppContext"
 import AddNewValue from "../context/components/AddNewValue"
 
-export default function NewEntryPage() {
+export default function EditEntryPage() {
     const {setReload, token} = useContext(AppContext)
     const location = useLocation()
     let type
@@ -37,7 +37,7 @@ export default function NewEntryPage() {
 
     return (
         <>
-            <PageName>Nova entrada</PageName>
+            <PageName>Editar entrada</PageName>
            <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription}/>
         </>
     )

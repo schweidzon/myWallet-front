@@ -1,13 +1,21 @@
 import axios from "axios"
 import dayjs from "dayjs"
 import { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
 import AddNewValue from "../context/components/AddNewValue"
 
 export default function NewExitPage() {
     const {setReload, token} = useContext(AppContext)
+    const location= useLocation()
+    let type
+    if(location.pathname === "/nova-saida") {
+        type = "exit"
+    } else {
+        type = "entry"
+    }
+    
     const nagivate = useNavigate()
 
 
@@ -21,7 +29,7 @@ export default function NewExitPage() {
             }
         }
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet`, {value, description, type: "exit"}, config)
+        axios.post(`${process.env.REACT_APP_API_URL}/update-wallet`, {value, description, type}, config)
         .then(() => {
             setReload([])
             nagivate("/home")
