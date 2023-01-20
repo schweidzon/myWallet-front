@@ -19,7 +19,7 @@ export default function HomePage() {
     }
     useEffect(() => {
 
-        axios.get(`${process.env.REACT_APP_API_URL}/values`, config)
+        axios.get(`${process.env.REACT_APP_API_URL}/wallet`, config)
             .then(res => {
                 console.log(res.data)
                 const newWallet = res.data
@@ -55,7 +55,9 @@ export default function HomePage() {
     function deleteEntry(id) {
         if (window.confirm("Você tem certeza que deseja deletar uma mensagem?")) {
             axios.delete(`${process.env.REACT_APP_API_URL}/update-wallet/${id}`, config)
-            setReload([])
+            .then(res => setReload([]))
+            .catch(err => err.response.message)
+            
         }
     }
 
@@ -153,7 +155,7 @@ const CashFlowContainer = styled.div`
 const CashFlowItem = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-right: 10px;
+    margin-right: 13px;
     word-break: break-all;
     position: relative;
         h2 {
@@ -168,7 +170,7 @@ const CashFlowItem = styled.div`
         p {
             cursor: pointer;
             position: absolute;
-            right: -10px;
+            right: -8px;
         }
       
     

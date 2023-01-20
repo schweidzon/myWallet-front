@@ -1,19 +1,20 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
 
 export default function EditExitPage() {
     const { setReload, token } = useContext(AppContext)
-    const location = useLocation()
+    
+    const {id} = useParams()
 
     console.log('oi')
 
     const nagivate = useNavigate()
     const [value, setValue] = useState("")
     const [description, setDescription] = useState("")
-    const id = location.pathname.split("/")[location.pathname.split("/").length - 1]
+    
 
     const config = {
         headers: {
@@ -54,7 +55,7 @@ export default function EditExitPage() {
         <>
             <PageName>Editar saída</PageName>
             <NewEntryForm onSubmit={editExit} >
-                <input onChange={(e) => setValue((e.target.value))} type="text" placeholder="Valor" value={`${value}${value.includes(",") ? "" : ",00"}`} />
+                <input onChange={(e) => setValue((e.target.value))} type="text" placeholder="Valor" value={value} />
                 <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Descrição" value={description} />
                 <button>Atualizar saída</button>
             </NewEntryForm>

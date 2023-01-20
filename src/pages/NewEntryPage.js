@@ -6,6 +6,7 @@ import AppContext from "../context/AppContext"
 import AddNewValue from "../context/components/AddNewValue"
 
 export default function NewEntryPage() {
+    
     const { setReload, token } = useContext(AppContext)
     const location = useLocation()
     let type
