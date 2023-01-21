@@ -4,13 +4,13 @@ import { useContext, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
-import AddNewValue from "../context/components/AddNewValue"
+import AddNewValue from "../components/AddNewValue"
 
 export default function NewExitPage() {
     const { setReload, token } = useContext(AppContext)
     const location = useLocation()
     let type
-    if (location.pathname === "/nova-saida") {
+    if (location.pathname === "/new-exit") {
         type = "exit"
     } else {
         type = "entry"

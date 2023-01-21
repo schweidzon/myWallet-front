@@ -31,16 +31,14 @@ export default function RegisterPage() {
         setEmail("")
         setPassword("")
         setConfirmPassword("")
-
-        console.log(user)
-        axios.post(`${process.env.REACT_APP_API_URL}/cadastro`, user)
+        axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, user)
             .then(res => {
                 alert(res.data)
                 setUser(user.name)
                 navigate("/")
 
             })
-            .catch(err => console.log(err.response.data))
+            .catch(err => alert(err.response.data))
     }
 
     return (

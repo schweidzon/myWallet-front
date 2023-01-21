@@ -5,10 +5,10 @@ export default function AddNewValue({ setValue, setDescription, registerNewEntry
     const location = useLocation()
     return (
 
-        <NewEntryForm onSubmit={location.pathname.includes("/editar-saida") ? EditEntry : registerNewEntry} >
+        <NewEntryForm onSubmit={registerNewEntry} >
             <input onChange={(e) => setValue((e.target.value).replace(",", "."))} type="text" placeholder="Valor" />
             <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Descrição" />
-            <button>Salvar {location.pathname === "/nova-entrada" ? 'entrada' : 'saída'}</button>
+            <button>Salvar {location.pathname === "/new-entry" ? 'entrada' : 'saída'}</button>
         </NewEntryForm>
 
     )

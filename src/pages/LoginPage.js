@@ -19,7 +19,6 @@ export default function RegistarPage() {
         axios.post(`${process.env.REACT_APP_API_URL}/`, { email, password })
             .then(res => {
                 setUser(res.data.user)
-                console.log(res)
                 setToken(res.data.token)
                 navigate("/home")
 
@@ -36,7 +35,7 @@ export default function RegistarPage() {
                 <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder='E-mail' required />
                 <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Senha' required />
                 <button>Entrar</button>
-                <p>Primeira vez? <Link to="/cadastro"><span>Cadastre-se!</span></Link> </p>
+                <p>Primeira vez? <Link to="/sign-up"><span>Cadastre-se!</span></Link> </p>
             </RegisterForm>
         </>
     )

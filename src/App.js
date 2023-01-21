@@ -16,12 +16,12 @@ function App() {
       <AppProvider>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/cadastro" element={<RegistarPage />} />
+          <Route path="/sign-up" element={<RegistarPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/nova-entrada?/:id" element={<NewEntryPage />} />
-          <Route path="/nova-saida?/:id" element={<NewExitPage />} />
-          <Route path="/editar-entrada?/:id" element={<EditEntryPage />} />
-          <Route path="/editar-saida?/:id" element={<EditExitPage />} />
+          <Route path="/new-entry?/:id" element={<NewEntryPage />} />
+          <Route path="/new-exit?/:id" element={<NewExitPage />} />
+          <Route path="/edit-entry?/:id" element={<EditEntryPage />} />
+          <Route path="/edit-exit?/:id" element={<EditExitPage />} />
         </Routes>
         </AppProvider >
     </BrowserRouter>

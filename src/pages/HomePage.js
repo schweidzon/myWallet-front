@@ -76,7 +76,7 @@ export default function HomePage() {
                         <CashFlowItem key={item._id} >
                             <div>
                                 <span>{item.date}</span>
-                                <Link to={item.type === "entry" ? `/editar-entrada/${item._id}` : `/editar-saida/${item._id}`}>
+                                <Link to={item.type === "entry" ? `/edit-entry/${item._id}` : `/edit-exit/${item._id}`}>
                                     <h2>{item.description}</h2>
                                 </Link>
                             </div>
@@ -104,11 +104,11 @@ export default function HomePage() {
             }
 
             <ButtonsContainer>
-                <Link to={"/nova-entrada"}>
+                <Link to={"/new-entry"}>
                     <button > <img src={plusButton} alt="addImage" /> Nova<br /> entrada</button>
                 </Link>
 
-                <Link to={"/nova-saida"}>
+                <Link to={"/new-exit"}>
                     <button> <img src={minusButton} alt="addImage" />Nova<br /> saída</button>
                 </Link>
             </ButtonsContainer>
@@ -146,6 +146,7 @@ const CashFlowContainer = styled.div`
         gap: 13px;
         position: relative;
         overflow-y: scroll;
+        
         h4 {
          margin: auto;
         }
