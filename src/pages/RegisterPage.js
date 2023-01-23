@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useContext, useState } from 'react'
+import { AiFillWindows } from 'react-icons/ai'
 import { ThreeDots } from 'react-loader-spinner'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -30,19 +31,23 @@ export default function RegisterPage() {
             password,
             confirmPassword
         }
-        setName("")
-        setEmail("")
-        setPassword("")
-        setConfirmPassword("")
+
         axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, user)
             .then(res => {
                 alert(res.data)
                 setUser(user.name)
                 navigate("/")
                 setRegistenring(false)
+                setName("")
+                setEmail("")
+                setPassword("")
+                setConfirmPassword("")
 
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => {
+                alert(err.response.data)
+                window.location.reload()
+            })
     }
 
     return (
