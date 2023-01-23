@@ -24,10 +24,8 @@ export default function HomePage() {
         setLoading(true)
 
         axios.get(`${process.env.REACT_APP_API_URL}/wallet`, config)
-            .then(res => {
-                console.log(res.data)
-                const newWallet = res.data
-                console.log(user)
+            .then(res => {               
+                const newWallet = res.data              
                 setWallet(newWallet)
                 setLoading(false)
             })
@@ -95,7 +93,7 @@ export default function HomePage() {
                                     <h2>{item.description}</h2>
                                 </Link>
                             </div>
-                            {console.log(item.type)}
+                           
                             <ItemValue type={item.type} >R$ {
                                 
                                     (Number(item.value).toFixed(2)).toString().replace(".", ",")
@@ -110,8 +108,7 @@ export default function HomePage() {
             </CashFlowContainer>
             {wallet.length > 0 ?
                 <BalanceItem>
-                    <h2>Saldo</h2>
-                    {console.log(typeof balance)}
+                    <h2>Saldo</h2>                   
                     <BalanceValue type={balance.toString()} >R$ {(balance.replace(".", ","))}</BalanceValue>
                 </BalanceItem>
                 :

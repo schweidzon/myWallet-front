@@ -31,8 +31,7 @@ export default function NewEntryPage() {
         e.preventDefault()
         axios.post(`${process.env.REACT_APP_API_URL}/update-wallet?`, { value, description, type }, config)
             .then(() => {
-                setReload([])
-                console.log('test')
+                setReload([])               
                 nagivate("/home")
                 setLoading(false)
             })

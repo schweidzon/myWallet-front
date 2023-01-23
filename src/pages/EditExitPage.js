@@ -28,7 +28,7 @@ export default function EditExitPage() {
                 setValue(((res.data.value).toString().replace(".", ",")))
                 setDescription(res.data.description)
             })
-            .catch(err => console.log(err.response.message))
+            .catch(err => alert(err.response.message))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -38,12 +38,11 @@ export default function EditExitPage() {
         setLoading(true)
 
         const valueNum = (value.replace(",", "."))
-        console.log(valueNum)
+        
 
         axios.put(`${process.env.REACT_APP_API_URL}/update-wallet/${id}`, { value: valueNum, description }, config)
             .then(() => {
-                setReload([])
-                console.log('test')
+                setReload([])             
                 nagivate("/home")
                 setLoading(false)
             })
