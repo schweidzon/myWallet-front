@@ -1,13 +1,14 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
+import { ThreeDots } from "react-loader-spinner"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
 
 export default function EditEntryPage() {
     const { setReload, token } = useContext(AppContext)
-   
-    const {id} = useParams()
+
+    const { id } = useParams()
     console.log(id)
 
     console.log('oi')
@@ -15,6 +16,7 @@ export default function EditEntryPage() {
     const nagivate = useNavigate()
     const [value, setValue] = useState("")
     const [description, setDescription] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const config = {
         headers: {
@@ -36,6 +38,7 @@ export default function EditEntryPage() {
 
     function editExit(e) {
         e.preventDefault()
+        setLoading(true)
 
         const valueNum = (value.replace(",", "."))
         console.log(valueNum)
@@ -45,6 +48,7 @@ export default function EditEntryPage() {
                 setReload([])
                 console.log('test')
                 nagivate("/home")
+                setLoading(false)
             })
             .catch(err => alert(err.response.data))
 
@@ -56,7 +60,15 @@ export default function EditEntryPage() {
             <NewEntryForm onSubmit={editExit} >
                 <input onChange={(e) => setValue((e.target.value))} type="text" placeholder="Valor" value={value} />
                 <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Descrição" value={description} />
-                <button>Atualizar saída</button>
+                <button>{!loading ? 'Atualizar entrada' :
+                    <ThreeDots
+                        color="#FFFFFF"
+                        height="60"
+                        width="60"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true} />}</button>
             </NewEntryForm>
         </>
     )
@@ -103,6 +115,11 @@ const NewEntryForm = styled.form`
             cursor: pointer;
             font-weight: 700;
             font-size: 20px;
+            transition: 0.4s;            
+            &:hover {
+                background-color: #7c2c9f;
+            }
+        
 
         }
         p {

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useContext, useState } from 'react'
+import { ThreeDots } from 'react-loader-spinner'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,9 +18,11 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [registering, setRegistenring] = useState(false)
 
     async function register(e) {
         e.preventDefault()
+        setRegistenring(true)
 
         const user = {
             name,
@@ -36,6 +39,7 @@ export default function RegisterPage() {
                 alert(res.data)
                 setUser(user.name)
                 navigate("/")
+                setRegistenring(false)
 
             })
             .catch(err => alert(err.response.data))
@@ -49,7 +53,15 @@ export default function RegisterPage() {
                 <input required type='email' placeholder='E-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
                 <input required type='password' placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <input required type='password' placeholder='Confirma a senha' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                <button>Cadastrar</button>
+                <button>{!registering ? 'Cadastrar' :
+                    <ThreeDots
+                        color="#FFFFFF"
+                        height="60"
+                        width="60"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true} />}</button>
                 <p>Já tem uma conta? <Link to={"/"}><span>Entre agora!</span></Link></p>
 
             </RegisterForm>
@@ -99,6 +111,10 @@ const RegisterForm = styled.form`
             cursor: pointer;
             font-size: 20px;
             font-weight: 700;
+            transition: 0.4s;
+            &:hover {
+                background-color: #7c2c9f;
+            }
 
         }
         p {

@@ -9,6 +9,9 @@ export default function NewEntryPage() {
     
     const { setReload, token } = useContext(AppContext)
     const location = useLocation()
+    const [loading, setLoading] = useState(false)
+    const [value, setValue] = useState("")
+    const [description, setDescription] = useState("")
     let type
     if (location.pathname === "/new-exit") {
         type = "exit"
@@ -16,20 +19,21 @@ export default function NewEntryPage() {
         type = "entry"
     }
     const nagivate = useNavigate()
-    const [value, setValue] = useState("")
-    const [description, setDescription] = useState("")
+   
     function registerNewEntry(e) {
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }
+        setLoading(true)
         e.preventDefault()
         axios.post(`${process.env.REACT_APP_API_URL}/update-wallet?`, { value, description, type }, config)
             .then(() => {
                 setReload([])
                 console.log('test')
                 nagivate("/home")
+                setLoading(false)
             })
             .catch(err => alert(err.response.data))
     }
@@ -37,7 +41,7 @@ export default function NewEntryPage() {
     return (
         <>
             <PageName>Nova entrada</PageName>
-            <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
+            <AddNewValue loading={loading} registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
         </>
     )
 

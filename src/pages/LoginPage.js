@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useContext, useState } from 'react'
+import { ThreeDots } from 'react-loader-spinner'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import myWalletImage from '../assets/images/MyWallet.png'
@@ -13,14 +14,17 @@ export default function RegistarPage() {
     const { setUser, setToken } = useContext(AppContext)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    const [loading, setLoading] = useState(false)
 
     function login(e) {
         e.preventDefault()
+        setLoading(true)
         axios.post(`${process.env.REACT_APP_API_URL}/`, { email, password })
             .then(res => {
                 setUser(res.data.user)
                 setToken(res.data.token)
                 navigate("/home")
+                setLoading(false)
 
 
             })
@@ -34,7 +38,15 @@ export default function RegistarPage() {
             <RegisterForm onSubmit={login} >
                 <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder='E-mail' required />
                 <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Senha' required />
-                <button>Entrar</button>
+                <button>{!loading ? 'Entrar' :
+                    <ThreeDots
+                        color="#FFFFFF"
+                        height="60"
+                        width="60"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true} />}</button>
                 <p>Primeira vez? <Link to="/sign-up"><span>Cadastre-se!</span></Link> </p>
             </RegisterForm>
         </>
@@ -82,6 +94,10 @@ const RegisterForm = styled.form`
             cursor: pointer;
             font-size: 20px;
             font-weight: 700;
+            transition: 0.4s;
+            &:hover {
+                background-color: #7c2c9f;
+            }
             
 
         }

@@ -6,18 +6,22 @@ import { useContext, useEffect, useState } from 'react'
 import AppContext from '../context/AppContext'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { Oval } from 'react-loader-spinner'
+import {FiTrash2} from 'react-icons/fi'
 
 export default function HomePage() {
     const navigate = useNavigate()
 
     const { user, reload, token, setReload } = useContext(AppContext)
     const [wallet, setWallet] = useState([])
+    const [loading, setLoading] = useState(false)
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
     useEffect(() => {
+        setLoading(true)
 
         axios.get(`${process.env.REACT_APP_API_URL}/wallet`, config)
             .then(res => {
@@ -25,6 +29,7 @@ export default function HomePage() {
                 const newWallet = res.data
                 console.log(user)
                 setWallet(newWallet)
+                setLoading(false)
             })
             .catch(err => {
                 alert(err.response.data)
@@ -54,10 +59,12 @@ export default function HomePage() {
 
     function deleteEntry(id) {
         if (window.confirm("Você tem certeza que deseja deletar uma mensagem?")) {
+            setLoading(true)
             axios.delete(`${process.env.REACT_APP_API_URL}/update-wallet/${id}`, config)
-            .then(res => setReload([]))
-            .catch(err => err.response.message)
-            
+                .then(res => setReload([]))
+                .catch(err => err.response.message)
+            setLoading(false)
+
         }
     }
 
@@ -70,8 +77,16 @@ export default function HomePage() {
                     <img src={logOut} alt="outImage" />
                 </Link>
             </TopStyle>
-            <CashFlowContainer>
-                {wallet.length === 0 ? <h4>Não há registros de  <br /> entrada ou saída</h4> :
+            <CashFlowContainer loading={loading}>
+                {loading ? <Oval
+                    color="#8C11BE"
+                    secondaryColor="#A328D6"
+                    height="80"
+                    width="80"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClassName=""
+                    visible={true} /> : wallet.length === 0 ? <h4>Não há registros de  <br /> entrada ou saída</h4> :
                     wallet.map((item) => (
                         <CashFlowItem key={item._id} >
                             <div>
@@ -86,7 +101,7 @@ export default function HomePage() {
                                     (Number(item.value).toFixed(2)).toString().replace(".", ",")
                                     : item.value.replace(".", ",")
                             }</ItemValue>
-                            <p onClick={() => deleteEntry(item._id)}>x</p>
+                            <p onClick={() => deleteEntry(item._id)}><FiTrash2/></p>
                         </CashFlowItem>
 
 
@@ -146,6 +161,8 @@ const CashFlowContainer = styled.div`
         gap: 13px;
         position: relative;
         overflow-y: scroll;
+        align-items:${props => props.loading ? "center" : ""} ;
+        justify-content:${props => props.loading ? "center" : ""} ;
         
         h4 {
          margin: auto;
@@ -156,7 +173,7 @@ const CashFlowContainer = styled.div`
 const CashFlowItem = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-right: 13px;
+    margin-right: 12px;
     word-break: break-all;
     position: relative;
         h2 {
@@ -171,7 +188,9 @@ const CashFlowItem = styled.div`
         p {
             cursor: pointer;
             position: absolute;
-            right: -8px;
+            right: -12px;
+            font-size: 16px;
+            top: 3px;
         }
       
     
@@ -225,6 +244,10 @@ const ButtonsContainer = styled.div`
             padding: 10px;
             font-size: 17px;
             font-weight: 700;
+            transition: 0.4s;
+            &:hover {
+                background-color: #7c2c9f;
+            }
            }
            img {
             position: absolute;
