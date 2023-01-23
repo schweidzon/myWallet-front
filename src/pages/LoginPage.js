@@ -25,8 +25,6 @@ export default function RegistarPage() {
                 setToken(res.data.token)
                 navigate("/home")
                 setLoading(false)
-
-
             })
             .catch(err => alert(err.response.data))
 
