@@ -69,7 +69,6 @@ const HeaderStyle = styled.div`
 const PageName = styled.h1`
     display: flex;
     justify-content:left;
-    margin: 30px 20px 40px 25px;
     font-size: 26px;
     color: white;
     font-weight: 700;
