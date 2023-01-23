@@ -101,7 +101,7 @@ export default function HomePage() {
                                     (Number(item.value).toFixed(2)).toString().replace(".", ",")
                                     : item.value.replace(".", ",")
                             }</ItemValue>
-                            <p onClick={() => deleteEntry(item._id)}><FiTrash2/></p>
+                            <p onClick={() => deleteEntry(item._id)}><FiTrash2 size='0.9em'/></p>
                         </CashFlowItem>
 
 
@@ -188,9 +188,9 @@ const CashFlowItem = styled.div`
         p {
             cursor: pointer;
             position: absolute;
-            right: -12px;
+            right: -11px;
             font-size: 16px;
-            top: 3px;
+            top: 4px;
         }
       
     

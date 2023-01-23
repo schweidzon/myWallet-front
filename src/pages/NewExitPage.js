@@ -1,10 +1,11 @@
 import axios from "axios"
 import dayjs from "dayjs"
 import { useContext, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
 import AddNewValue from "../components/AddNewValue"
+import { AiFillHome } from 'react-icons/ai'
 
 export default function NewExitPage() {
     const { setReload, token } = useContext(AppContext)
@@ -39,12 +40,26 @@ export default function NewExitPage() {
 
     return (
         <>
-            <PageName>Nova saída</PageName>
+            <HeaderStyle>
+                <PageName>Nova saída</PageName>
+                <Link to="/home">
+                    <AiFillHome color="white" size='1.5em' />
+                </Link>
+            </HeaderStyle>
             <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
 
         </>
     )
 }
+
+const HeaderStyle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+    margin: 30px 20px 30px 25px;
+`
+
 
 const PageName = styled.h1`
     display: flex;

@@ -1,7 +1,8 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
+import { AiFillHome } from "react-icons/ai"
 import { ThreeDots } from "react-loader-spinner"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import AppContext from "../context/AppContext"
 
@@ -52,7 +53,13 @@ export default function EditExitPage() {
 
     return (
         <>
-            <PageName>Editar saída</PageName>
+
+            <HeaderStyle>
+                <PageName>Nova entrada</PageName>
+                <Link to="/home">
+                    <AiFillHome color="white" size='1.5em' />
+                </Link>
+            </HeaderStyle>
             <NewEntryForm onSubmit={editExit} >
                 <input onChange={(e) => setValue((e.target.value))} type="text" placeholder="Valor" value={value} />
                 <input onChange={(e) => setDescription(e.target.value)} type="text" placeholder="Descrição" value={description} />
@@ -74,7 +81,6 @@ export default function EditExitPage() {
 const PageName = styled.h1`
     display: flex;
     justify-content:left;
-    margin: 30px 20px 40px 25px;
     font-size: 26px;
     color: white;
     font-weight: 700;
@@ -127,4 +133,14 @@ const NewEntryForm = styled.form`
         }
 
 `
+
+const HeaderStyle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+    margin: 30px 20px 30px 25px;
+`
+
+
 
