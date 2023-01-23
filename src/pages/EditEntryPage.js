@@ -9,10 +9,7 @@ import AppContext from "../context/AppContext"
 export default function EditEntryPage() {
     const { setReload, token } = useContext(AppContext)
 
-    const { id } = useParams()
-    console.log(id)
-
-    console.log('oi')
+    const { id } = useParams()  
 
     const nagivate = useNavigate()
     const [value, setValue] = useState("")
@@ -28,11 +25,10 @@ export default function EditEntryPage() {
     useEffect(() => {
         axios.put(`${process.env.REACT_APP_API_URL}/update-wallet/${id}`, {}, config)
             .then(res => {
-                setValue(((res.data.value).toString().replace(".", ",")))
-                console.log(res.data)
+                setValue(((res.data.value).toString().replace(".", ",")))               
                 setDescription(res.data.description)
             })
-            .catch(err => console.log(err.response.message))
+            .catch(err => alert(err.response.message))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -42,12 +38,11 @@ export default function EditEntryPage() {
         setLoading(true)
 
         const valueNum = (value.replace(",", "."))
-        console.log(valueNum)
+        
 
         axios.put(`${process.env.REACT_APP_API_URL}/update-wallet/${id}`, { value: valueNum, description }, config)
             .then(() => {
-                setReload([])
-                console.log('test')
+                setReload([])                
                 nagivate("/home")
                 setLoading(false)
             })

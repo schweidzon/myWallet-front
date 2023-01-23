@@ -211,6 +211,7 @@ const BalanceItem = styled.div`
     font-size: 20px;
         h2 {
             color: black;
+            font-weight: 700;
         }
         div {
             display: flex;
