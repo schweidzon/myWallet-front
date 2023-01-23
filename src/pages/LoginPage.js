@@ -26,8 +26,13 @@ export default function RegistarPage() {
                 navigate("/home")
                 setLoading(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => {
+                alert(err.response.data)
+                window.location.reload()
 
+            })
+
+            
     }
 
     return (

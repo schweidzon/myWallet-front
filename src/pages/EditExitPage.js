@@ -47,7 +47,10 @@ export default function EditExitPage() {
                 nagivate("/home")
                 setLoading(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => {
+                alert(err.response.data)
+                setLoading(false)
+            })
 
     }
 
@@ -55,7 +58,7 @@ export default function EditExitPage() {
         <>
 
             <HeaderStyle>
-                <PageName>Nova entrada</PageName>
+                <PageName>Editar saída</PageName>
                 <Link to="/home">
                     <AiFillHome color="white" size='1.5em' />
                 </Link>

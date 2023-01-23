@@ -36,7 +36,10 @@ export default function NewEntryPage() {
                 nagivate("/home")
                 setLoading(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => {
+                alert(err.response.data)
+                setLoading(false)
+            })
     }
 
     return (

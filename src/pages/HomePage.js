@@ -97,9 +97,9 @@ export default function HomePage() {
                             </div>
                             {console.log(item.type)}
                             <ItemValue type={item.type} >R$ {
-                                item.value % 1 === 0 ?
+                                
                                     (Number(item.value).toFixed(2)).toString().replace(".", ",")
-                                    : item.value.replace(".", ",")
+                                   
                             }</ItemValue>
                             <p onClick={() => deleteEntry(item._id)}><FiTrash2 size='0.9em'/></p>
                         </CashFlowItem>

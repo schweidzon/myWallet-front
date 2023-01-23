@@ -51,7 +51,10 @@ export default function EditEntryPage() {
                 nagivate("/home")
                 setLoading(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => {
+                alert(err.response.data)
+                setLoading(false)
+            })
 
     }
 

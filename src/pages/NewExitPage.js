@@ -20,10 +20,12 @@ export default function NewExitPage() {
     const nagivate = useNavigate()
 
 
-    console.log(dayjs().format("DD/MM"))
+  
     const [value, setValue] = useState("")
     const [description, setDescription] = useState("")
+    const [loading, setLoading] = useState(false)
     function registerNewEntry(e) {
+        setLoading(true)
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -34,6 +36,10 @@ export default function NewExitPage() {
             .then(() => {
                 setReload([])
                 nagivate("/home")
+                setLoading(false)
+            }).catch(err => {
+                alert(err.response.data)
+                setLoading(false)
             })
 
     }
@@ -46,7 +52,7 @@ export default function NewExitPage() {
                     <AiFillHome color="white" size='1.5em' />
                 </Link>
             </HeaderStyle>
-            <AddNewValue registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
+            <AddNewValue loading={loading} registerNewEntry={registerNewEntry} setValue={setValue} setDescription={setDescription} />
 
         </>
     )
