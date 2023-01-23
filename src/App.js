@@ -18,8 +18,8 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/sign-up" element={<RegistarPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/new-entry?/:id" element={<NewEntryPage />} />
-          <Route path="/new-exit?/:id" element={<NewExitPage />} />
+          <Route path="/new-exit" element={<NewExitPage />} />
+          <Route path="/new-entry" element={<NewEntryPage />} />
           <Route path="/edit-entry?/:id" element={<EditEntryPage />} />
           <Route path="/edit-exit?/:id" element={<EditExitPage />} />
         </Routes>

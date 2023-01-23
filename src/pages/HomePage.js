@@ -123,7 +123,7 @@ export default function HomePage() {
                     <button > <img src={plusButton} alt="addImage" /> Nova<br /> entrada</button>
                 </Link>
 
-                <Link to={"/new-exit"}>
+                <Link to={"/new-exit?"}>
                     <button> <img src={minusButton} alt="addImage" />Nova<br /> saída</button>
                 </Link>
             </ButtonsContainer>

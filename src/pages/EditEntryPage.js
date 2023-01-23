@@ -61,7 +61,7 @@ export default function EditEntryPage() {
     return (
         <>
         <HeaderStyle>
-                <PageName>Nova saída</PageName>
+                <PageName>Editar entrada</PageName>
                 <Link to="/home">
                     <AiFillHome color="white" size='1.5em' />
                 </Link>
